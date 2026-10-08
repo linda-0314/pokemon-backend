@@ -1,4 +1,3 @@
-// Centra la tarjeta en la pantalla
 .contenedor {
   min-height: 100%;
   display: flex;
@@ -35,7 +34,6 @@
   padding: 8px 20px 12px;
 }
 
-// Imagen grande con un resplandor rojo de fondo
 .imagen-wrap {
   display: flex;
   justify-content: center;
@@ -75,7 +73,6 @@
   font-weight: 600;
 }
 
-// Caja azul de datos (altura, peso, género, categoría, habilidad)
 .caja-datos {
   width: 100%;
   border-collapse: collapse;
@@ -107,7 +104,6 @@
   }
 }
 
-// Etiquetas de tipo y debilidad
 .chips {
   display: flex;
   justify-content: center;
@@ -132,7 +128,6 @@
   background: #cc3344;
 }
 
-// Precio y stock
 .tienda {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -158,7 +153,6 @@
   }
 }
 
-// Evoluciones
 .evo {
   display: flex;
   flex-direction: column;
