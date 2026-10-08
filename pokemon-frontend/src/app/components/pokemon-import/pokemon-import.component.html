@@ -1,0 +1,52 @@
+<ion-content>
+  <div class="banner">
+    <h1>Agregar Pokémon</h1>
+    <p>Búscalo por su ID o por su nombre</p>
+  </div>
+
+  <div class="contenido">
+    <div class="toggle">
+      <button type="button" [class.activo]="modo() === 'id'" (click)="cambiarModo('id')">Por ID</button>
+      <button type="button" [class.activo]="modo() === 'nombre'" (click)="cambiarModo('nombre')">Por nombre</button>
+    </div>
+
+    <ion-input
+      class="campo"
+      fill="outline"
+      labelPlacement="floating"
+      [label]="modo() === 'id' ? 'ID del Pokémon' : 'Nombre del Pokémon'"
+      [type]="modo() === 'id' ? 'number' : 'text'"
+      [value]="valor()"
+      (ionInput)="escribir($event.detail.value)"
+      (keyup.enter)="buscar()"></ion-input>
+
+    <ion-button class="btn-buscar" expand="block" [disabled]="buscando()" (click)="buscar()">
+      {{ buscando() ? 'Buscando...' : 'Buscar' }}
+    </ion-button>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    @if (resultado(); as r) {
+      <div class="resultado" [class.deshabilitado]="yaExiste()" (click)="elegir()">
+        <img [src]="r.imagen_url" [alt]="r.nombre" />
+        <div>
+          <span class="numero">#{{ r.numero_pokedex }}</span>
+          <h2>{{ r.nombre }}</h2>
+          <div class="tipos">
+            @for (t of r.tipos; track t) {
+              <span class="chip">{{ t }}</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      @if (yaExiste()) {
+        <p class="aviso">Este Pokémon ya está en tu Pokédex.</p>
+      } @else {
+        <p class="pista">Toca el Pokémon para continuar</p>
+      }
+    }
+  </div>
+</ion-content>

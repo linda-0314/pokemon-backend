@@ -1,6 +1,42 @@
-ion-card img {
-  display: block;
-  width: 60%;
-  margin: 0 auto;
-  image-rendering: pixelated;
+// Botón "Agregar" del encabezado
+.btn-agregar {
+  --background: #ffcb05;
+  --background-hover: #ffd633;
+  --background-activated: #e6b800;
+  --color: #1d2b53;
+  --border-radius: 20px;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  margin-right: 8px;
+}
+
+// Botones de cada tarjeta
+.acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+
+  ion-button {
+    flex: 1;
+    margin: 0;
+    font-weight: 600;
+    text-transform: none;
+    --border-radius: 20px;
+  }
+}
+
+.btn-editar {
+  --background: #3b4cca;
+  --background-hover: #4a5ce0;
+  --background-activated: #2d3a9e;
+  --color: #ffffff;
+}
+
+.btn-eliminar {
+  --color: #cc0000;
+  --border-color: #cc0000;
+  --background-hover: rgba(204, 0, 0, 0.08);
+  --background-activated: rgba(204, 0, 0, 0.15);
 }

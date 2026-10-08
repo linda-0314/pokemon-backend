@@ -2,12 +2,22 @@
   <ion-toolbar color="danger">
     <ion-title>Pokédex</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="abrirFormulario()">Agregar</ion-button>
+      <ion-button class="btn-agregar" fill="solid" (click)="agregar()">Agregar</ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="danger">
+    <ion-searchbar
+      placeholder="Buscar por número o nombre"
+      [debounce]="400"
+      (ionInput)="onBuscar($event.detail.value)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  @if (pokemons().length === 0) {
+    <p class="ion-text-center">No hay Pokémon para mostrar.</p>
+  }
+
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let p of pokemons()">
@@ -21,6 +31,11 @@
             <p>Tipos: {{ p.tipos.join(', ') }}</p>
             <p>Precio: {{ p.precio | currency }}</p>
             <p>Stock: {{ p.stock }}</p>
+
+            <div class="acciones">
+              <ion-button size="small" class="btn-editar" (click)="editar(p)">Editar</ion-button>
+              <ion-button size="small" fill="outline" class="btn-eliminar" (click)="eliminar(p)">Eliminar</ion-button>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>

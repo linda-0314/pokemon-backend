@@ -1,42 +1,43 @@
-<ion-header>
-    <ion-toolbar>
-    <ion-buttons slot="start">
-        <ion-button (click)="cancelar()">Cancelar</ion-button>
-    </ion-buttons>
-    <ion-title>Nuevo Pokémon</ion-title>
-    <ion-buttons slot="end">
-        <ion-button strong (click)="guardar()">Guardar</ion-button>
-    </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="banner">
+    <h1>{{ editando ? 'Editar Pokémon' : 'Agregar Pokémon' }}</h1>
+    <p>{{ editando ? 'Modifica los datos que necesites' : 'Completa el precio y el stock' }}</p>
+  </div>
 
-<ion-content class="ion-padding">
+  <div class="contenido">
+    @if (pokemon; as p) {
+      <div class="portada">
+        <img [src]="p.imagen_url" [alt]="p.nombre" />
+      </div>
+    }
+
     <form [formGroup]="form">
-    <ion-list>
+      <ion-list>
         <ion-item>
-        <ion-input label="N° Pokédex" labelPlacement="floating" type="number"
+          <ion-input label="N° Pokédex" labelPlacement="floating" type="number"
             formControlName="numero_pokedex" errorText="Requerido, mínimo 1"></ion-input>
         </ion-item>
         <ion-item>
-        <ion-input label="Nombre" labelPlacement="floating"
+          <ion-input label="Nombre" labelPlacement="floating"
             formControlName="nombre" errorText="Mínimo 3 caracteres"></ion-input>
         </ion-item>
         <ion-item>
-        <ion-input label="URL de imagen" labelPlacement="floating"
-            formControlName="imagen_url" errorText="Requerido"></ion-input>
-        </ion-item>
-        <ion-item>
-        <ion-input label="Tipos (separados por coma)" labelPlacement="floating"
+          <ion-input label="Tipos (separados por coma)" labelPlacement="floating"
             formControlName="tipos" errorText="Requerido"></ion-input>
         </ion-item>
         <ion-item>
-        <ion-input label="Precio" labelPlacement="floating" type="number"
-            formControlName="precio" errorText="Debe ser 0 o más"></ion-input>
+          <ion-input label="Precio" labelPlacement="floating" type="number"
+            formControlName="precio" errorText="Requerido, debe ser 0 o más"></ion-input>
         </ion-item>
         <ion-item>
-        <ion-input label="Stock" labelPlacement="floating" type="number"
-            formControlName="stock" errorText="Debe ser 0 o más"></ion-input>
+          <ion-input label="Stock" labelPlacement="floating" type="number"
+            formControlName="stock" errorText="Requerido, debe ser 0 o más"></ion-input>
         </ion-item>
-    </ion-list>
+      </ion-list>
     </form>
+
+    <ion-button class="btn-guardar" expand="block" (click)="guardar()">
+      {{ editando ? 'Guardar cambios' : 'Guardar' }}
+    </ion-button>
+  </div>
 </ion-content>
