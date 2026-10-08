@@ -8,6 +8,7 @@ import {
 } from '@ionic/angular';
 import { PokemonService } from '../services/pokemon.service';
 import { Pokemon } from '../models/pokemon';
+import { Router } from '@angular/router';
 import { PokemonFormComponent } from '../components/pokemon-form/pokemon-form.component';
 import { PokemonImportComponent } from '../components/pokemon-import/pokemon-import.component';
 
@@ -30,7 +31,8 @@ export class HomePage implements OnInit {
     private pokemonService: PokemonService,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -144,7 +146,10 @@ export class HomePage implements OnInit {
     });
     await alerta.present();
   }
-
+ // ---------- VER DETALLE ----------
+  verDetalle(p: Pokemon) {
+    this.router.navigate(['/pokemon', p.id]);
+  }
   // ---------- Mensajes ----------
   private mostrarError(err: any, porDefecto: string) {
     console.error(err);

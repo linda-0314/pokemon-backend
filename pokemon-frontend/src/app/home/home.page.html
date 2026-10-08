@@ -21,7 +21,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let p of pokemons()">
-        <ion-card>
+        <ion-card class="tarjeta" (click)="verDetalle(p)">
           <img [src]="p.imagen_url" [alt]="p.nombre" />
           <ion-card-header>
             <ion-card-subtitle>#{{ p.numero_pokedex }}</ion-card-subtitle>
@@ -33,8 +33,8 @@
             <p>Stock: {{ p.stock }}</p>
 
             <div class="acciones">
-              <ion-button size="small" class="btn-editar" (click)="editar(p)">Editar</ion-button>
-              <ion-button size="small" fill="outline" class="btn-eliminar" (click)="eliminar(p)">Eliminar</ion-button>
+              <ion-button size="small" class="btn-editar" (click)="editar(p); $event.stopPropagation()">Editar</ion-button>
+              <ion-button size="small" fill="outline" class="btn-eliminar" (click)="eliminar(p); $event.stopPropagation()">Eliminar</ion-button>
             </div>
           </ion-card-content>
         </ion-card>

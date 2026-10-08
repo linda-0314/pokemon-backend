@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { ImportarPokemon, Pokemon } from '../models/pokemon';
+import { ImportarPokemon, Pokemon, PokemonDetalle } from '../models/pokemon';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -24,6 +24,10 @@ export class PokemonService {
   // GET /api/pokemons/:id  (id interno)
   getById(id: number): Observable<Pokemon> {
     return this.http.get<Pokemon>(`${this.url}/${id}`);
+  }
+  // GET /api/pokemons/:id/detalle  (datos de la BD + info extra de la PokeAPI)
+  getDetalle(id: number): Observable<PokemonDetalle> {
+  return this.http.get<PokemonDetalle>(`${this.url}/${id}/detalle`);
   }
 
   // Consulta la PokeAPI SIN guardar nada: sirve para mostrar el Pokémon antes de agregarlo

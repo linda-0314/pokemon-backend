@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { Pokemon, Tipo } = require('../models');
+const { traerDetalleExtra } = require('../services/pokeapidetalle');
 
 const POKEAPI_BASE = 'https://pokeapi.co/api/v2/pokemon';
 
@@ -227,5 +228,34 @@ exports.eliminarPokemon = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensaje: 'Error al eliminar el Pokémon', error: error.message });
+  }
+};
+
+// GET /api/pokemons/:id/detalle -> datos de la BD + info extra de la PokeAPI
+exports.obtenerDetallePokemon = async (req, res) => {
+  try {
+    const pokemon = await Pokemon.findByPk(req.params.id, {
+      include: [{ model: Tipo, as: 'tipos', attributes: ['nombre'], through: { attributes: [] } }]
+    });
+
+    if (!pokemon) {
+      return res.status(404).json({ mensaje: 'Pokémon no encontrado' });
+    }
+
+    const extra = await traerDetalleExtra(pokemon.numero_pokedex);
+
+    res.status(200).json({
+      id: pokemon.id,
+      numero_pokedex: pokemon.numero_pokedex,
+      nombre: pokemon.nombre,
+      imagen_url: pokemon.imagen_url,
+      tipos: pokemon.tipos.map((t) => t.nombre),
+      precio: pokemon.precio,
+      stock: pokemon.stock,
+      ...extra
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al obtener el detalle del Pokémon', error: error.message });
   }
 };
