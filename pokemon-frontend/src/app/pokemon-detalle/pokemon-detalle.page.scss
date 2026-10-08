@@ -1,0 +1,235 @@
+// Centra la tarjeta en la pantalla
+.contenedor {
+  min-height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+}
+
+.detalle {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0;
+  border-radius: 20px;
+  text-align: center;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: stretch;
+}
+
+.panel-presentacion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 16px;
+  border-right: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.panel-info {
+  padding: 12px 8px;
+}
+
+.seccion {
+  padding: 8px 20px 12px;
+}
+
+// Imagen grande con un resplandor rojo de fondo
+.imagen-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 8px;
+  background: radial-gradient(circle at center, rgba(235, 68, 90, 0.35), transparent 70%);
+
+  img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+}
+
+.numero {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.nombre {
+  margin: 4px 0 8px;
+  font-size: 30px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.descripcion {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.subtitulo {
+  margin: 8px 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+// Caja azul de datos (altura, peso, género, categoría, habilidad)
+.caja-datos {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 16px;
+  background: #2f9fd0;
+  color: #fff;
+  overflow: hidden;
+
+  tr:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  th,
+  td {
+    padding: 10px 12px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  th {
+    width: 50%;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  td {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+// Etiquetas de tipo y debilidad
+.chips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 18px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.chip-tipo {
+  background: #3b4cca;
+}
+
+.chip-debilidad {
+  background: #cc3344;
+}
+
+// Precio y stock
+.tienda {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  .dato {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(128, 128, 128, 0.15);
+  }
+
+  .dato-label {
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  .dato-valor {
+    font-size: 22px;
+    font-weight: 700;
+  }
+}
+
+// Evoluciones
+.evo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 120px;
+}
+
+.evoluciones-cadena {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.evo-circulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  background: rgba(128, 128, 128, 0.25);
+
+  img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+}
+
+.evo-nombre {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.evo-num {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.flecha {
+  margin: 0;
+  font-size: 28px;
+  opacity: 0.7;
+  transform: rotate(-90deg);
+}
+
+.sin-evo {
+  margin: 0;
+  opacity: 0.7;
+}
+
+@media (max-width: 700px) {
+  .detalle {
+    max-width: 520px;
+    grid-template-columns: 1fr;
+  }
+
+  .panel-presentacion {
+    padding: 16px 12px 8px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  }
+
+  .panel-info {
+    padding: 8px 4px;
+  }
+}

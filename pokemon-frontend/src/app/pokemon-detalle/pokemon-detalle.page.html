@@ -1,0 +1,118 @@
+<ion-header>
+    <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="contenedor">
+    @if (cargando()) {
+        <ion-spinner></ion-spinner>
+    } @else if (errorMsg()) {
+        <p class="ion-text-center">{{ errorMsg() }}</p>
+    } @else if (pokemon(); as p) {
+        <ion-card class="detalle">
+        <section class="panel-presentacion">
+            <span class="numero">N.º {{ numero(p.numero_pokedex) }}</span>
+            <div class="imagen-wrap">
+            <img [src]="p.imagen_url" [alt]="p.nombre" />
+            </div>
+            <h1 class="nombre">{{ p.nombre }}</h1>
+            <p class="descripcion">{{ p.descripcion }}</p>
+        </section>
+
+        <div class="panel-info">
+            <section class="seccion">
+            <h2 class="subtitulo">Datos generales</h2>
+            <table class="caja-datos">
+                <tbody>
+                <tr>
+                    <th scope="row">Altura</th>
+                    <td>{{ p.altura_m }} m</td>
+                </tr>
+                <tr>
+                    <th scope="row">Peso</th>
+                    <td>{{ p.peso_kg }} kg</td>
+                </tr>
+                <tr>
+                    <th scope="row">Género</th>
+                    <td>
+                    @if (p.genero.sin_genero) {
+                        Sin género
+                    } @else {
+                        ♂ {{ p.genero.macho }}% &nbsp; ♀ {{ p.genero.hembra }}%
+                    }
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Categoría</th>
+                    <td>{{ p.categoria }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Habilidad</th>
+                    <td>{{ p.habilidades.join(', ') }}</td>
+                </tr>
+                </tbody>
+            </table>
+            </section>
+
+            <div class="grupos-tipo">
+            <section class="seccion">
+                <h2 class="subtitulo">Tipo</h2>
+                <div class="chips">
+                @for (t of p.tipos; track t) {
+                    <span class="chip chip-tipo">{{ traducirTipo(t) }}</span>
+                }
+                </div>
+            </section>
+
+            <section class="seccion">
+                <h2 class="subtitulo">Debilidad</h2>
+                <div class="chips">
+                @for (d of p.debilidades; track d) {
+                    <span class="chip chip-debilidad">{{ d }}</span>
+                }
+                </div>
+            </section>
+            </div>
+
+            <section class="seccion tienda">
+            <div class="dato">
+                <span class="dato-label">Precio</span>
+                <span class="dato-valor">{{ p.precio | currency }}</span>
+            </div>
+            <div class="dato">
+                <span class="dato-label">Stock</span>
+                <span class="dato-valor">{{ p.stock }}</span>
+            </div>
+            </section>
+
+            <section class="seccion">
+            <h2 class="subtitulo">Evoluciones</h2>
+            @if (p.evoluciones.length <= 1) {
+                <p class="sin-evo">Este Pokémon no evoluciona.</p>
+            } @else {
+                <div class="evoluciones-cadena">
+                @for (e of p.evoluciones; track e.numero_pokedex; let ultimo = $last) {
+                    <div class="evo">
+                    <div class="evo-circulo">
+                        <img [src]="e.imagen_url" [alt]="e.nombre" />
+                    </div>
+                    <span class="evo-nombre">{{ e.nombre }}</span>
+                    <span class="evo-num">N.º {{ numero(e.numero_pokedex) }}</span>
+                    </div>
+                    @if (!ultimo) {
+                    <span class="flecha" aria-hidden="true">→</span>
+                    }
+                }
+                </div>
+            }
+            </section>
+        </div>
+        </ion-card>
+    }
+    </div>
+</ion-content>
