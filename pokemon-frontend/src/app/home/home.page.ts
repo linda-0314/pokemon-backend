@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PokemonCamaraComponent } from '../components/pokemon-camara/pokemon-camara.component';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol,
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent,
@@ -73,23 +74,25 @@ export class HomePage implements OnInit {
     });
   }
 
-  // ---------- AGREGAR (buscar por id o nombre -> elegir -> formulario -> POST /pokemons) ----------
+    // ---------- AGREGAR (buscar por id o nombre -> elegir -> formulario -> POST /pokemons) ----------
   async agregar() {
-    // 1) Modal de búsqueda
     const buscador = await this.modalCtrl.create({ component: PokemonImportComponent });
     await buscador.present();
     const elegido = await buscador.onDidDismiss();
     if (elegido.role !== 'confirm' || !elegido.data) return;
 
-    // 2) Formulario con los datos del Pokémon ya puestos
+    await this.abrirFormularioCrear(elegido.data);
+  }
+
+  // Abre el formulario con los datos del Pokémon ya puestos y lo guarda (POST /pokemons)
+  private async abrirFormularioCrear(pokemon: Pokemon) {
     const formulario = await this.modalCtrl.create({
       component: PokemonFormComponent,
-      componentProps: { pokemon: elegido.data, modo: 'crear' },
+      componentProps: { pokemon, modo: 'crear' },
     });
     await formulario.present();
     const { data, role } = await formulario.onWillDismiss();
 
-    // 3) Guardar en el backend
     if (role === 'confirm' && data) {
       this.pokemonService.crear(data).subscribe({
         next: () => {
@@ -99,6 +102,34 @@ export class HomePage implements OnInit {
         error: (err) => this.mostrarError(err, 'No se pudo agregar el Pokémon'),
       });
     }
+  }
+
+  // ---------- CÁMARA: identificar un Pokémon ----------
+  async abrirCamara() {
+    const modal = await this.modalCtrl.create({ component: PokemonCamaraComponent });
+    await modal.present();
+    const { data, role } = await modal.onDidDismiss();
+    if (role !== 'confirm' || !data?.nombre) return;
+
+    const nombre: string = data.nombre;
+    this.pokemonService.buscar(nombre).subscribe({
+      next: (lista) => {
+        const guardado = lista.find((p) => p.nombre.toLowerCase() === nombre);
+        if (guardado) {
+          this.verDetalle(guardado); // ya está en la BD -> ver detalle
+          return;
+        }
+        // No está -> se trae de la PokeAPI y se abre el formulario para agregarlo
+        this.pokemonService.buscarEnPokeapi(nombre).subscribe({
+          next: (p) => {
+            this.mostrarMensaje(`${nombre} no está en tu Pokédex. ¡Agrégalo!`);
+            this.abrirFormularioCrear(p);
+          },
+          error: (err) => this.mostrarError(err, 'No se pudo consultar la PokeAPI'),
+        });
+      },
+      error: (err) => this.mostrarError(err, 'No se pudo conectar con el backend'),
+    });
   }
 
   // ---------- EDITAR (PUT /pokemons/:id) ----------

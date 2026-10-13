@@ -1,0 +1,66 @@
+<ion-content>
+  <div class="banner">
+    <button type="button" class="cerrar" aria-label="Cerrar" (click)="cerrar()">✕</button>
+    <h1>Identificar con cámara</h1>
+    <p>Reconozco a: {{ reconocibles.join(', ') }}</p>
+  </div>
+
+  <div class="contenido">
+    <div class="visor" [class.oculto]="!camaraActiva()">
+      <video #video autoplay playsinline muted></video>
+      <div class="guia" [class.ok]="resultado()?.reconocido" [class.mal]="resultado() && !resultado()!.reconocido"></div>
+    </div>
+
+    @if (errorCamara()) {
+      <p class="aviso">{{ errorCamara() }}</p>
+    }
+
+    @if (cargando() || estado()) {
+      <div class="cargando">
+        @if (cargando()) { <ion-spinner name="crescent"></ion-spinner> }
+        <span>{{ estado() }}</span>
+      </div>
+    }
+
+    @if (!cargando() && !mostrarEntrenar()) {
+      @if (resultado(); as r) {
+        <div class="resultado" [class.ok]="r.reconocido" [class.mal]="!r.reconocido">
+          @if (r.reconocido) { <img [src]="imagenResultado()" alt="Foto" /> }
+          <div>
+            <h2>{{ r.mensaje }}</h2>
+            <small>Coincidencia: {{ porcentaje(r.similitud) }}%</small>
+          </div>
+        </div>
+        @if (r.reconocido) {
+          <ion-button class="btn-azul" expand="block" (click)="usarPokemon()">Usar este Pokémon</ion-button>
+        }
+      } @else if (camaraActiva()) {
+        <p class="pista">Pon el Pokémon dentro del recuadro</p>
+      }
+    }
+
+    <input #archivo type="file" accept="image/*" capture="environment" hidden (change)="fotoElegida($event)" />
+    <div class="fila">
+      <ion-button fill="outline" [disabled]="cargando()" (click)="tomarFoto()">Tomar / subir foto</ion-button>
+      @if (camaraActiva()) {
+        <ion-button fill="outline" [disabled]="cargando()" (click)="alternarEntrenar()">
+          {{ mostrarEntrenar() ? 'Listo' : 'Mejorar' }}
+        </ion-button>
+      }
+    </div>
+
+    @if (mostrarEntrenar()) {
+      <div class="entrenar">
+        <p>Muestra el Pokémon en el recuadro y toca su nombre varias veces (desde varios ángulos). Usa <b>Otro</b> con cosas que NO son esos 3.</p>
+        <div class="fila">
+          @for (n of reconocibles; track n) {
+            <ion-button size="small" (click)="guardarEjemplo(n)">{{ n }} ({{ ejemplos()[n] ?? 0 }})</ion-button>
+          }
+          <ion-button size="small" color="medium" (click)="guardarEjemplo(claseOtro)">Otro ({{ ejemplos()[claseOtro] ?? 0 }})</ion-button>
+        </div>
+        <ion-button size="small" fill="clear" (click)="descargarEntrenamiento()">Descargar entrenamiento</ion-button>
+        <ion-button size="small" fill="clear" color="danger" (click)="borrarEntrenamiento()">Borrar entrenamiento</ion-button>
+      </div>
+    }
+  </div>
+</ion-content>

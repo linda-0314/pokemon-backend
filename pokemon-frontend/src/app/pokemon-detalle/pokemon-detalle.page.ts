@@ -42,8 +42,9 @@ export class PokemonDetallePage implements OnInit {
         this.pokemon.set(data);
         this.cargando.set(false);
         },
-        error: (err) => {
-        this.errorMsg.set(err?.error?.mensaje || 'No se pudo cargar el Pokémon');
+        error: (e) => {
+        console.error(e);
+        this.errorMsg.set('No se pudo cargar el detalle del Pokémon.');
         this.cargando.set(false);
         },
     });

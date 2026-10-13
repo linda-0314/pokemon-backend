@@ -43,3 +43,13 @@
 .tarjeta {
   cursor: pointer;
 }
+.btn-camara {
+  --background: #ffffff;
+  --background-hover: #f3f4fb;
+  --color: #cc0000;
+  --border-radius: 20px;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  text-transform: none;
+  margin-right: 6px;
+}
